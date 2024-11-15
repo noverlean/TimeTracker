@@ -1,17 +1,17 @@
 package noverlin.timetracker.services.impl;
 
 import jakarta.transaction.Transactional;
-import noverlin.timetracker.DTOs.TimingDto;
+import noverlin.timetracker.DTOs.SessionDto;
 import noverlin.timetracker.DTOs.UserActivityDto;
 import noverlin.timetracker.entities.Project;
-import noverlin.timetracker.entities.Timing;
+import noverlin.timetracker.entities.Session;
 import noverlin.timetracker.entities.User;
 import noverlin.timetracker.entities.UserProject;
 import noverlin.timetracker.exceptions.custom.*;
-import noverlin.timetracker.mappers.TimingMapper;
+import noverlin.timetracker.mappers.SessionMapper;
 import noverlin.timetracker.mappers.UserMapperImpl;
 import noverlin.timetracker.repositories.ProjectRepository;
-import noverlin.timetracker.repositories.TimingRepository;
+import noverlin.timetracker.repositories.SessionRepository;
 import noverlin.timetracker.repositories.UserProjectRepository;
 import noverlin.timetracker.repositories.UserRepository;
 import noverlin.timetracker.services.SessionService;
@@ -27,7 +27,7 @@ public class SessionServiceImpl implements SessionService {
     @Autowired
     private UserProjectRepository userProjectRepository;
     @Autowired
-    private TimingRepository timingRepository;
+    private SessionRepository sessionRepository;
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
@@ -35,7 +35,7 @@ public class SessionServiceImpl implements SessionService {
     @Autowired
     private UserMapperImpl userMapper;
     @Autowired
-    private TimingMapper timingMapper;
+    private SessionMapper sessionMapper;
 
     @Override
     public Boolean startSessionByProjectIdAndUserEmail(Integer projectId, String email) {
@@ -43,17 +43,17 @@ public class SessionServiceImpl implements SessionService {
                 .orElseThrow(UserProjectNotFoundException::new);
 
         //проверка наличия начатой и не оконченной сессии
-        if (userProject.getTimings().stream().anyMatch((x) -> x.getDuration() == 0)) {
+        if (userProject.getSessions().stream().anyMatch((x) -> x.getDuration() == 0)) {
             throw new SessionAlreadyStartedException();
         }
         else if (userProject.getProject().isFinished()) {
             throw new ProjectAlreadyFinishedException();
         }
 
-        Timing timing = new Timing(userProject);
-        userProject.getTimings().add(timing);
+        Session session = new Session(userProject);
+        userProject.getSessions().add(session);
 
-        timingRepository.save(timing);
+        sessionRepository.save(session);
         userProjectRepository.save(userProject);
         return Boolean.TRUE;
     }
@@ -65,36 +65,36 @@ public class SessionServiceImpl implements SessionService {
                 .orElseThrow(UserProjectNotFoundException::new);
 
         //проверка отсутствия начатой и не оконченной сессии
-        if (userProject.getTimings().stream().noneMatch((x) -> x.getDuration() == 0)) {
+        if (userProject.getSessions().stream().noneMatch((x) -> x.getDuration() == 0)) {
             throw new SessionAlreadyEndedException();
         }
 
-        Timing timing = timingRepository.findOpenedByUserProject(email, projectId).get();
-        finishSession(timing);
+        Session session = sessionRepository.findOpenedByUserProject(email, projectId).get();
+        finishSession(session);
 
         userProjectRepository.save(userProject);
         return Boolean.TRUE;
     }
 
-    public void finishSession(Timing timing) {
-        if (timing.getDuration() != 0)
+    public void finishSession(Session session) {
+        if (session.getDuration() != 0)
         {
             throw new SessionAlreadyEndedException();
         }
 
-        Project project = timing.getUserProject().getProject();
-        Long duration = Duration.between(timing.getStartedIn(), Instant.now()).toSeconds();
-        timing.setDuration(duration);
+        Project project = session.getUserProject().getProject();
+        Long duration = Duration.between(session.getStartedIn(), Instant.now()).toSeconds();
+        session.setDuration(duration);
         project.setAllTimeSpent(getAllTimeSpent(project));
 
-        timingRepository.save(timing);
+        sessionRepository.save(session);
         projectRepository.save(project);
     }
 
     public Long getAllTimeSpent(Project project) {
         Long summaryProjectDuration = 0L;
         for (UserProject up : project.getUserProjects()) {
-            for (Timing t : up.getTimings()) {
+            for (Session t : up.getSessions()) {
                 summaryProjectDuration += t.getDuration();
             }
         }
@@ -106,18 +106,18 @@ public class SessionServiceImpl implements SessionService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
 
-        List<TimingDto> timingDtos = timingRepository.findAllByUserEmailAndProjectId(email, projectId)
+        List<SessionDto> sessionDtos = sessionRepository.findAllByUserEmailAndProjectId(email, projectId)
                 .stream()
-                .map(x -> timingMapper.modelToDto(x))
+                .map(x -> sessionMapper.modelToDto(x))
                 .toList();
         Long userActivityDuration = 0L;
-        for (TimingDto dto : timingDtos) {
+        for (SessionDto dto : sessionDtos) {
             userActivityDuration += dto.getDuration();
         }
 
         return new UserActivityDto()
                 .setUserDto(userMapper.modelToDto(user))
-                .setSessions(timingDtos)
+                .setSessions(sessionDtos)
                 .setAllTimeSpent(userActivityDuration);
     }
 }

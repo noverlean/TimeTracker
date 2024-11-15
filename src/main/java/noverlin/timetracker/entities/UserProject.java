@@ -26,7 +26,7 @@ public class UserProject {
     private Project project;
 
     @OneToMany(mappedBy = "userProject")
-    private List<Timing> timings;
+    private List<Session> sessions;
 
     public String toString()
     {

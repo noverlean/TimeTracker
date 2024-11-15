@@ -10,7 +10,7 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/create-users-projects-table.yaml
   - include:
-      file: db/changelog/changeset/create-timings-table.yaml
+      file: db/changelog/changeset/create-sessions-table.yaml
 
   - include:
       file: db/changelog/changeset/insert/insert-roles.xml

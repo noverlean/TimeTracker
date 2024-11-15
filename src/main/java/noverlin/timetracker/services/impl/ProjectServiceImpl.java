@@ -3,12 +3,12 @@ package noverlin.timetracker.services.impl;
 import jakarta.transaction.Transactional;
 import noverlin.timetracker.DTOs.ProjectDto;
 import noverlin.timetracker.entities.Project;
-import noverlin.timetracker.entities.Timing;
+import noverlin.timetracker.entities.Session;
 import noverlin.timetracker.entities.User;
 import noverlin.timetracker.entities.UserProject;
 import noverlin.timetracker.exceptions.custom.*;
 import noverlin.timetracker.repositories.ProjectRepository;
-import noverlin.timetracker.repositories.TimingRepository;
+import noverlin.timetracker.repositories.SessionRepository;
 import noverlin.timetracker.repositories.UserProjectRepository;
 import noverlin.timetracker.repositories.UserRepository;
 import noverlin.timetracker.services.ProjectService;
@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private UserProjectRepository userProjectRepository;
     @Autowired
-    private TimingRepository timingRepository;
+    private SessionRepository sessionRepository;
     @Autowired
     private SessionService sessionService;
 
@@ -70,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
         UserProject userProject = new UserProject()
                 .setUser(user)
                 .setProject(project)
-                .setTimings(new ArrayList<>());
+                .setSessions(new ArrayList<>());
 
         userProjectRepository.save(userProject);
     }
@@ -117,10 +117,10 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //закрывает все неоконченные сессии
-        List<Timing> startedTimings = timingRepository.findAllStartedTimingsOnProject(projectId);
-        startedTimings.stream().peek(timing -> {
-            sessionService.finishSession(timing);
-        }).forEach(timingRepository::save);
+        List<Session> startedSessions = sessionRepository.findAllStartedSessionsOnProject(projectId);
+        startedSessions.stream().peek(session -> {
+            sessionService.finishSession(session);
+        }).forEach(sessionRepository::save);
 
         project.setFinished(true);
         return projectRepository.save(project);
