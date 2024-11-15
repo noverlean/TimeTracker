@@ -62,6 +62,9 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        if (user.getRoles().stream().anyMatch(x -> x.getName().equals("ADMIN"))) {
+            throw new UnavailableLinkProjectToAdminException();
+        }
         Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         UserProject userProject = new UserProject()

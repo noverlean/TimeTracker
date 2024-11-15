@@ -1,5 +1,5 @@
 # Используем официальное Java 17 JDK изображение
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:22
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
