@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table
+      author: noverlin
+      changes:
+        - createTable:
+            tableName: users
+            schemaName: account_management_db
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: fullname
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: nickname
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-projects-table
+      author: noverlin
+      changes:
+        - createTable:
+            tableName: users-projects
+            schemaName: timetrackerdb
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_id
+                    references: users(id)
+              - column:
+                  name: project_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_project_id
+                    references: projects(id)

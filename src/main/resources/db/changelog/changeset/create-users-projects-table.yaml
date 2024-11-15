@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-projects-table
+      author: noverlin
+      changes:
+        - createTable:
+            tableName: projects
+            schemaName: timetrackerdb
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: finished
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_in
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: all_time_spent
+                  type: timestamp
+                  constraints:
+                    nullable: false
