@@ -38,21 +38,20 @@ public class SecurityConfig {
                         .requestMatchers("/projects").hasRole(ADMIN)
                         .requestMatchers("/projects/{id}/finish").hasRole(ADMIN)
                         .requestMatchers("/projects/{id}/resume").hasRole(ADMIN)
-                        .requestMatchers("/users/self/projects").authenticated()
+                        .requestMatchers("/users/self/projects").hasRole(USER)
                         .requestMatchers("/projects/{id}/users").authenticated()
                         .requestMatchers("/projects/{id}/sessions/start").hasRole(USER)
                         .requestMatchers("/projects/{id}/sessions/finish").hasRole(USER)
                         .requestMatchers("/projects/{projectId}/users/email={email}/sessions").authenticated()
                         .requestMatchers("/users").hasRole(ADMIN)
-                        .requestMatchers("/users/email={email}").hasRole(ADMIN)
                         .requestMatchers("/users/email={email}").authenticated()
+                        .requestMatchers("/users/self").authenticated()
                         .requestMatchers("/projects/{projectId}/link/users/email={email}").hasRole(ADMIN)
                         .anyRequest().permitAll()
                 );
 
         return http.build();
     }
-
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

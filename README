@@ -1,0 +1,76 @@
+STEPS TO RUN:
+    - clone repository
+    - run command "docker-compose build"
+    - run command "docker-compose up"
+    - done. You have opportunity to use API from any web requests editor.
+
+Root path: http://localhost:8080
+There using JWT Authentication. Sing up and Log in methods are return JWT token.
+
+Entry-points:
+    ADMIN:
+        - get list of users
+            == GET http://localhost:8080/users
+
+        - get list of products
+            == GET http://localhost:8080/products
+
+        - create a new project
+            == POST http://localhost:8080/products
+            ++
+            {
+                  "title": "test2 project",
+                  "description": "description1"
+            }
+
+        - add user to the project
+            == PATCH http://localhost:8080/projects/{projectId}/link/users/email={email}
+
+        - make project as finished and resume it
+            == PATCH http://localhost:8080/projects/{projectId}/finish
+            == PATCH http://localhost:8080/projects/{projectId}/resume
+
+    USER:
+        - get himself projects
+            == GET http://localhost:8080/users/self/projects
+
+        - start session
+            == POST http://localhost:8080/projects/{projectId}/sessions/start
+
+        - finish session
+            == POST http://localhost:8080/projects/{projectId}/sessions/finish
+
+    every authenticated:
+        - get project by id
+            == GET http://localhost:8080/projects/{projectId}
+
+        - get users on a project
+            == GET http://localhost:8080/projects/{projectId}/users
+
+        - get user activity on the project
+            == GET http://localhost:8080/projects/{projectId}/users/email={email}/sessions
+
+        - get user by email
+            == GET http://localhost:8080/users/email={email}
+
+        - get himself profile
+            == GET http://localhost:8080/users/self
+
+    not authenticated:
+        - sign up
+            == POST http://localhost:8080/signup
+            ++
+            {
+                "email": "noverlin1352@gmail.com",
+                "password": 135135135
+            }
+
+        - login
+            == POST http://localhost:8080/login
+            ++
+            {
+                "email": "semenoff1352@gmail.com",
+                "password": 100
+            }
+
+
