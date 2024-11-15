@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/projects/{id}/users").authenticated()
                         .requestMatchers("/projects/{id}/sessions/start").hasRole(USER)
                         .requestMatchers("/projects/{id}/sessions/finish").hasRole(USER)
+                        .requestMatchers("/projects/{projectId}/users/email={email}/sessions").authenticated()
                         .requestMatchers("/users").hasRole(ADMIN)
                         .requestMatchers("/users/email={email}").hasRole(ADMIN)
                         .requestMatchers("/users/email={email}").authenticated()

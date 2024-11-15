@@ -1,20 +1,26 @@
 package noverlin.timetracker.services.impl;
 
 import jakarta.transaction.Transactional;
+import noverlin.timetracker.DTOs.TimingDto;
+import noverlin.timetracker.DTOs.UserActivityDto;
 import noverlin.timetracker.entities.Project;
 import noverlin.timetracker.entities.Timing;
+import noverlin.timetracker.entities.User;
 import noverlin.timetracker.entities.UserProject;
 import noverlin.timetracker.exceptions.custom.*;
+import noverlin.timetracker.mappers.TimingMapper;
+import noverlin.timetracker.mappers.UserMapperImpl;
 import noverlin.timetracker.repositories.ProjectRepository;
 import noverlin.timetracker.repositories.TimingRepository;
 import noverlin.timetracker.repositories.UserProjectRepository;
+import noverlin.timetracker.repositories.UserRepository;
 import noverlin.timetracker.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -24,7 +30,12 @@ public class SessionServiceImpl implements SessionService {
     private TimingRepository timingRepository;
     @Autowired
     private ProjectRepository projectRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserMapperImpl userMapper;
+    @Autowired
+    private TimingMapper timingMapper;
 
     @Override
     public Boolean startSessionByProjectIdAndUserEmail(Integer projectId, String email) {
@@ -88,5 +99,25 @@ public class SessionServiceImpl implements SessionService {
             }
         }
         return summaryProjectDuration;
+    }
+
+    @Override
+    public UserActivityDto getAllSessionTimeByUserEmail(Integer projectId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        List<TimingDto> timingDtos = timingRepository.findAllByUserEmailAndProjectId(email, projectId)
+                .stream()
+                .map(x -> timingMapper.modelToDto(x))
+                .toList();
+        Long userActivityDuration = 0L;
+        for (TimingDto dto : timingDtos) {
+            userActivityDuration += dto.getDuration();
+        }
+
+        return new UserActivityDto()
+                .setUserDto(userMapper.modelToDto(user))
+                .setSessions(timingDtos)
+                .setAllTimeSpent(userActivityDuration);
     }
 }

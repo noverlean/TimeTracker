@@ -37,3 +37,11 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+        - createIndex:
+            clustered: true
+            columns:
+                - column:
+                    name: title
+            indexName: idx_title
+            schemaName: public
+            tableName: projects

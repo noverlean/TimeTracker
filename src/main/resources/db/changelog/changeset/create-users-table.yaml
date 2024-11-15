@@ -29,3 +29,12 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+        - createIndex:
+            clustered: true
+            columns:
+              - column:
+                  descending: true
+                  name: email
+            indexName: idx_email
+            schemaName: public
+            tableName: users

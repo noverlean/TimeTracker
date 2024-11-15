@@ -15,4 +15,6 @@ public interface TimingRepository extends CrudRepository<Timing, Long> {
     Optional<Timing> findOpenedByUserProject(String email, Integer projectId);
     @Query("SELECT t FROM Timing t WHERE t.userProject.project.id = ?1 AND t.duration = 0")
     List<Timing> findAllStartedTimingsOnProject(Integer projectId);
+    @Query("SELECT t FROM Timing t WHERE t.userProject.user.email = ?1 AND t.userProject.project.id = ?2")
+    List<Timing> findAllByUserEmailAndProjectId(String email, Integer projectId);
 }
