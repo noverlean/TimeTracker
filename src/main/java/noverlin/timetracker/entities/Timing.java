@@ -2,36 +2,39 @@ package noverlin.timetracker.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "project")
-public class Project {
+@Table(name = "timings")
+@NoArgsConstructor
+public class Timing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "duration")
+    private Long duration;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "started_in")
+    private Instant startedIn;
 
-    @Column(name = "finished")
-    private boolean finished;
-
-    @Column(name = "created_in")
-    private Instant created_in;
-
-    @Column(name = "all_time_spent")
-    private Instant all_time_spent;
+    @ManyToOne
+    @JoinColumn(name = "users_projects_id")
+    private UserProject userProject;
 
     public String toString()
     {
-        return "Project [id=" + id + ", title=" + title + ", description=" + description + ", finished=" + finished;
+        return "Timing [id=" + id + ", duration=" + duration;
+    }
+
+    public Timing(UserProject userProject)
+    {
+        this.userProject = userProject;
+        duration = 0L;
+        startedIn = Instant.now();
     }
 }

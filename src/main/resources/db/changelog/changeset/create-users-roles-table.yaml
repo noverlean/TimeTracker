@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: create-users-table
+      id: create-users-roles-table
       author: noverlin
       changes:
         - createTable:
             tableName: users_roles
-            schemaName: account_management_db
+            schemaName: public
             columns:
               - column:
                   name: id

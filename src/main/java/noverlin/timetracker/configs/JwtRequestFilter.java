@@ -1,7 +1,7 @@
-package com.example.account_management.configs;
+package noverlin.timetracker.configs;
 
 
-import com.example.account_management.utils.JwtTokenUtils;
+import noverlin.timetracker.utils.JwtTokenUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.FilterChain;

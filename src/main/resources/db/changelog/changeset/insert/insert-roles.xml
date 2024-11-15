@@ -7,7 +7,7 @@
     <changeSet logicalFilePath="insert-roles"
                id="insert-roles" author="noverlin">
         <insert tableName="roles">
-            <column  name="name"  value="ROLE_OWNER"/>
+            <column  name="name"  value="ROLE_USER"/>
         </insert>
         <insert tableName="roles">
             <column  name="name"  value="ROLE_ADMIN"/>

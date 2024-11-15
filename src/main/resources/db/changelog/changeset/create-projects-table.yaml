@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: create-accounts-table
+      id: create-projects-table
       author: noverlin
       changes:
         - createTable:
-            tableName: accounts
-            schemaName: account_management_db
+            tableName: projects
+            schemaName: public
             columns:
               - column:
                   name: id
@@ -15,18 +15,25 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: owner_user_id
-                  type: bigint
+                  name: title
+                  type: varchar(255)
                   constraints:
-                    foreignKeyName: fk_users_accounts
-                    references: users(id)
+                    nullable: false
               - column:
-                  name: amount
-                  type: bigint
-                  constraints:
-                    nullable: true
+                  name: description
+                  type: text
               - column:
-                  name: is_blocked
+                  name: finished
                   type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_in
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: all_time_spent
+                  type: bigint
                   constraints:
                     nullable: false

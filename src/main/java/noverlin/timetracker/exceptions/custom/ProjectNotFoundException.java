@@ -1,7 +1,9 @@
 package noverlin.timetracker.exceptions.custom;
 
-public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException() {
-        super("Пользователя с такими данными не существует. Проверьте данные и попробуйте снова.");
+import noverlin.timetracker.exceptions.CustomException;
+
+public class ProjectNotFoundException extends CustomException {
+    public ProjectNotFoundException() {
+        super("Проекта с такими данными не удалось найти. Проверьте данные и попробуйте снова.");
     }
 }

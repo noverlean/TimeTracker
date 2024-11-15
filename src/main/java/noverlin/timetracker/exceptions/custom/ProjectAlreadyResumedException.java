@@ -2,8 +2,8 @@ package noverlin.timetracker.exceptions.custom;
 
 import noverlin.timetracker.exceptions.CustomException;
 
-public class ProjectAlreadyFinishedException extends CustomException {
-    public ProjectAlreadyFinishedException() {
-        super("Проект уже закрыт.");
+public class ProjectAlreadyResumedException extends CustomException {
+    public ProjectAlreadyResumedException() {
+        super("Проект уже возобновлен.");
     }
 }

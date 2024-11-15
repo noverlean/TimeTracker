@@ -1,8 +1,8 @@
-package unicore.api.mappers;
+package noverlin.timetracker.mappers;
 
+import noverlin.timetracker.DTOs.UserDto;
+import noverlin.timetracker.entities.User;
 import org.mapstruct.Mapper;
-import unicore.api.dto.UserDto;
-import unicore.api.entities.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: create-users-projects-table
+      id: create-timings-table
       author: noverlin
       changes:
         - createTable:
-            tableName: users-projects
-            schemaName: timetrackerdb
+            tableName: timings
+            schemaName: public
             columns:
               - column:
                   name: id
@@ -15,16 +15,19 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_id
+                  name: users_projects_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_user_id
                     references: users(id)
               - column:
-                  name: project_id
-                  type: int
+                  name: duration
+                  type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_project_id
-                    references: projects(id)
+              - column:
+                  name: started_in
+                  type: timestamp
+                  constraints:
+                    nullable: false

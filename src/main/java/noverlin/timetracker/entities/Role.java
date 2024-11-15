@@ -1,4 +1,4 @@
-package com.example.account_management.entity;
+package noverlin.timetracker.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

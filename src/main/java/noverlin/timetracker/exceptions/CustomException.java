@@ -1,2 +1,7 @@
-package noverlin.timetracker.exceptions;public class ICustomException {
+package noverlin.timetracker.exceptions;
+
+public class CustomException extends RuntimeException {
+    public CustomException(String message) {
+        super(message);
+    }
 }

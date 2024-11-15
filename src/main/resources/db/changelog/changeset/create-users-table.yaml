@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: users
-            schemaName: account_management_db
+            schemaName: public
             columns:
               - column:
                   name: id
@@ -15,15 +15,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: fullname
-                  type: text
-                  constraints:
-                    nullable: true
-              - column:
-                  name: nickname
+                  name: name
                   type: varchar(255)
                   constraints:
-                    nullable: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: password
                   type: varchar(255)

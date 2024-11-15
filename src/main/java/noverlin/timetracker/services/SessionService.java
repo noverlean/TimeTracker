@@ -1,11 +1,11 @@
 package noverlin.timetracker.services;
 
-import noverlin.timetracker.DTOs.ProjectDto;
 import noverlin.timetracker.entities.Project;
-import noverlin.timetracker.entities.Role;
+import noverlin.timetracker.entities.Timing;
 
-import java.util.List;
-
-public interface RoleService {
-    Role getUserRole();
+public interface SessionService {
+    Boolean startSessionByProjectIdAndUserEmail(Integer projectId, String email);
+    Boolean finishSessionByProjectIdAndUserEmail(Integer projectId, String email);
+    void finishSession(Timing timing);
+    Long getAllTimeSpent(Project project);
 }

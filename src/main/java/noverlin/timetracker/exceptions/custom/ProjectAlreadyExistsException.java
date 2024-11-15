@@ -1,7 +1,9 @@
 package noverlin.timetracker.exceptions.custom;
 
-public class UserAlreadyExistsException extends RuntimeException {
-    public UserAlreadyExistsException() {
-        super("Пользователь с такими данными уже зарегистрирован. Проверьте вводимые данные или войдите.");
+import noverlin.timetracker.exceptions.CustomException;
+
+public class ProjectAlreadyExistsException extends CustomException {
+    public ProjectAlreadyExistsException() {
+        super("Проект с таким названием уже зарегистрирован. Проверьте вводимые данные и попробуйте снова.");
     }
 }

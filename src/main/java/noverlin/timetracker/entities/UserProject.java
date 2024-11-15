@@ -1,24 +1,37 @@
 package noverlin.timetracker.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @Entity
 @Data
-@Table(name = "roles")
-public class Role {
+@Table(name = "users-projects")
+@Accessors(chain = true)
+public class UserProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @OneToMany(mappedBy = "userProject")
+    private List<Timing> timings;
 
     public String toString()
     {
-        return "=== ROLE ================\n\t" +
+        return "=== UserProject ================\n\t" +
                 "id: " + id + ", \n\t" +
-                "name: " + name;
+                "some fields was hidden";
     }
 }

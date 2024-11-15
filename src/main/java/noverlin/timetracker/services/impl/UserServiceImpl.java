@@ -1,15 +1,11 @@
-package noverlin.timetracker.services;
+package noverlin.timetracker.services.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import noverlin.timetracker.DTOs.UserDto;
 import noverlin.timetracker.entities.User;
 import noverlin.timetracker.mappers.UserMapper;
 import noverlin.timetracker.repositories.UserRepository;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import noverlin.timetracker.services.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,12 +20,12 @@ import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final RoleService roleService;
+    private final RoleServiceImpl roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
     public Optional<User> findByEmail(String username) {
         return userRepository.findByEmail(username);
     }

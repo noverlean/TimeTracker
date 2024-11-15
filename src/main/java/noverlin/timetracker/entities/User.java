@@ -1,8 +1,9 @@
-package com.example.account_management.entity;
+package noverlin.timetracker.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,24 +11,27 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "users")
+@Accessors(chain = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "fullname")
-    private String fullname;
+    @NotNull
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "nickname")
-    private String nickname;
+    @NotNull
+    @Column(name = "email")
+    private String email;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JsonIgnore
-    private List<Account> accounts;
+    @OneToMany(mappedBy = "user")
+    private List<UserProject> userProjects;
 
     @ManyToMany
     @JoinTable(
@@ -41,8 +45,7 @@ public class User {
     {
         return "=== USER ================\n\t" +
                 "id: " + id + ", \n\t" +
-                "fullname: " + fullname + ", \n\t" +
-                "nickname: " + nickname + ", \n\t" +
+                "name: " + name + ", \n\t" +
                 "password: " + password + ", \n\t" +
                 "roles: " + roles.stream().map(Role::toString);
     }

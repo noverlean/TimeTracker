@@ -1,6 +1,6 @@
-package com.example.account_management.repository;
+package noverlin.timetracker.repositories;
 
-import com.example.account_management.entity.Role;
+import noverlin.timetracker.entities.Role;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

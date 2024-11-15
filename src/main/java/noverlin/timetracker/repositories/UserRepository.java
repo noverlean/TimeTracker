@@ -1,12 +1,13 @@
-package com.example.account_management.repository;
+package noverlin.timetracker.repositories;
 
-import com.example.account_management.entity.User;
+import noverlin.timetracker.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-    Optional<User> findByNickname(String nickname);
+public interface UserRepository extends CrudRepository<User, Long> {
+    Optional<User> findByName(String name);
+    Optional<User> findByEmail(String email);
 }
