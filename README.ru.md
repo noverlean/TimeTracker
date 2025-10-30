@@ -84,7 +84,7 @@ docker-compose up
 
 - Завершить или возобновить проект PATCH /projects/{projectId}/finish PATCH /projects/{projectId}/resume
 
-##👤 USER
+## 👤 USER
 
 - Получить свои проекты GET /users/self/projects
   
