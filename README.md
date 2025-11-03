@@ -61,7 +61,7 @@ docker-compose up
 
 ---
 
-🔐 Authentication
+🔐 Authentication!
 
 - POST /signup — Register a new user Request body:
 ```json
